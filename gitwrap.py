@@ -85,27 +85,19 @@ def main():
     parent_parser.add_argument(
         "--favourite-pokemon", 
         default="Pikachu", 
-        help="Optional identifier mapping context to output data state (default: Pikachu)"
+        help="Optional field included in YAML output (default: Pikachu)"
     )
-
     main_parser = argparse.ArgumentParser(
         description="gitwrap: A safer, structured interface CLI wrapping common Git commands.",
         parents=[parent_parser]
     )
-    
     subparsers = main_parser.add_subparsers(dest="command", required=True, help="Subcommands")
 
     # Clean Command Parser Setup
     clean_parser = subparsers.add_parser(
         "clean", 
         parents=[parent_parser],
-        conflict_handler="resolve",
         help="Safer wrapper wrapping 'git clean -fd'"
-    )
-    clean_parser.add_argument(
-        "--dry-run", 
-        action="store_true", 
-        help="Outputs what the tool would do instead of altering live state"
     )
     clean_parser.add_argument(
         "--yes", "-y", 
@@ -118,13 +110,7 @@ def main():
     status_parser = subparsers.add_parser(
         "status", 
         parents=[parent_parser],
-        conflict_handler="resolve",
         help="Structured wrapper extracting deterministic YAML from 'git status'"
-    )
-    status_parser.add_argument(
-        "--dry-run", 
-        action="store_true", 
-        help="Outputs what the tool would do instead of altering live state"
     )
     status_parser.set_defaults(func=handle_status)
 
