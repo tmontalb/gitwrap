@@ -1,29 +1,36 @@
 """
-YAML Serializer Module
-An independent, standard-library alternative to PyYAML.
+YAML Output Module
+Serializes Python dictionaries into clean, machine-readable YAML.
 """
+
+import yaml
+
 
 def to_yaml(data: dict) -> str:
     """
-    Converts a flat dictionary containing strings, booleans, and list of strings
-    into a clean, valid YAML representation without needing external dependencies.
+    Converts a Python dictionary into YAML.
+
+    Removes keys whose values are:
+      - None
+      - Empty lists
+
+    Returns a YAML string.
     """
-    lines = []
+
+    cleaned = {}
+
     for key, value in data.items():
+
         if value is None:
             continue
-        if isinstance(value, bool):
-            lines.append(f"{key}: {str(value).lower()}")
-        elif isinstance(value, list):
-            if not value:  # Requirement: omit empty collections
-                continue
-            lines.append(f"{key}:")
-            for item in value:
-                # Basic string escaping if it contains special characters
-                if any(c in item for c in [":", "#", "[", "]", "{", "}"]):
-                    lines.append(f'  - "{item}"')
-                else:
-                    lines.append(f"  - {item}")
-        else:
-            lines.append(f"{key}: {value}")
-    return "\n".join(lines)
+
+        if isinstance(value, list) and not value:
+            continue
+
+        cleaned[key] = value
+
+    return yaml.safe_dump(
+        cleaned,
+        sort_keys=False,
+        default_flow_style=False
+    ).rstrip()
