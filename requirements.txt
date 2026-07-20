@@ -1,0 +1,2 @@
+# This project uses the Python standard library exclusively.
+# No external dependencies or packages are required to run the CLI or unit tests.

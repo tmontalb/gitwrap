@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Local VS Code workspace metadata environment configuration
+.vscode/
+.idea/
